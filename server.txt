@@ -1,31 +1,49 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Reset</title>
+</head>
+<body>
 
-const app = express();
+<form id="resetForm">
+    <label for="oldPassword">Old Password:</label>
+    <input type="password" id="oldPassword" name="oldPassword" required><br><br>
+    
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required><br><br>
+    
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+    
+    <button type="submit">Reset Password</button>
+</form>
 
-// Middleware to parse incoming request bodies
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Route to handle form submission
-app.post('/password_reset', (req, res) => {
-    const { email, new_password, confirm_password } = req.body;
-
-    // Check if passwords match
-    if (new_password !== confirm_password) {
-        return res.status(400).send('Passwords do not match');
+<script>
+document.getElementById("resetForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    // Fetch input values
+    var oldPassword = document.getElementById("oldPassword").value;
+    var newPassword = document.getElementById("newPassword").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    
+    // Check if new password matches the confirmation
+    if (newPassword !== confirmPassword) {
+        alert("New password and confirmation password do not match!");
+        return;
     }
-
-    // Perform password reset logic here
-    // For simplicity, let's just log the email and new password
-    console.log(Email: ${email});
-    console.log(New Password: ${new_password});
-
-    // Send a success response
-    res.status(200).send('Password reset successfully');
+    
+    // Here you would typically send a request to your server to validate the old password
+    // and update the password for the user. This example just logs the data.
+    console.log("Old Password:", oldPassword);
+    console.log("New Password:", newPassword);
+    
+    // Optionally, you can reset the form fields
+    document.getElementById("resetForm").reset();
 });
+</script>
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(Server is running on port ${PORT});
-});
+</body>
+</html>
