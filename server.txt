@@ -1,0 +1,31 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+// Middleware to parse incoming request bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Route to handle form submission
+app.post('/password_reset', (req, res) => {
+    const { email, new_password, confirm_password } = req.body;
+
+    // Check if passwords match
+    if (new_password !== confirm_password) {
+        return res.status(400).send('Passwords do not match');
+    }
+
+    // Perform password reset logic here
+    // For simplicity, let's just log the email and new password
+    console.log(Email: ${email});
+    console.log(New Password: ${new_password});
+
+    // Send a success response
+    res.status(200).send('Password reset successfully');
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(Server is running on port ${PORT});
+});
